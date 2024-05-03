@@ -173,7 +173,6 @@ if __name__ == "__main__":
     global_decision = None
     for source, target in SYMLINK_MAP.items():
         global_decision = create_symlink(source, target, global_decision)
-        log.info()
 
     install_fonts(FONTS_LOCATION)
     setup_key_repetition_interval()
