@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "homelab"
+version = "0.1.0"
+description = "Helpers for my home lab"
+authors = ["Dmitry Akatov <dmitry.akatov@protonmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.0"
+mypy = "^1.10.0"
+flake8 = "^7.0.0"
+pdbpp = "^0.10.3"
+pycodestyle = "^2.11.1"
+pycompile = "^0.2.2"
+pyflakes = "^3.2.0"
+pylint = "^3.1.0"
+python-lsp-server = "^1.11.0"
+ruff = "^0.4.2"
+ruff-lsp = "^0.0.53"
+semgrep = "^1.70.0"
+pytest-html = "^4.1.1"
+types-pyyaml = "^6.0.12.20240311"
+boto3-stubs = "^1.34.97"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
