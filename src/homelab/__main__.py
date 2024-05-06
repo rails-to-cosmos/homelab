@@ -39,7 +39,7 @@ SYMLINK_MAP = {
     Path.home() / "sync" / "resources" / "dotfiles" / "rofi"                     : Path.home() / ".config" / "rofi",
     Path.home() / "sync" / "resources" / "dotfiles" / "applications"             : Path.home() / ".local" / "share" / "applications",
     Path.home() / "sync" / "resources" / "dotfiles" / "autostart"                : Path.home() / ".config" / "autostart",
-    Path.home() / "sync" / "resources" / "dotfiles" / "ice" / "icons"            : Path.home() / ".local" / "share" / "ice" / "icons",
+    Path.home() / "sync" / "resources" / "ice"                                   : Path.home() / ".local" / "share" / "ice",
 }
 
 FONTS_LOCATION = Path.home() / "sync" / "resources" / "fonts"
