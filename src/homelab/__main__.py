@@ -10,6 +10,7 @@ import shutil
 import subprocess
 import sys
 import time
+import fire
 
 log_level = os.getenv("HOMELAB__LOG_LEVEL", logging.INFO)
 log_format = os.getenv("HOMELAB__LOG_FORMAT", "%(asctime)s %(levelname)-8s %(threadName)-15s %(name)s:%(lineno)-3s %(message)s")

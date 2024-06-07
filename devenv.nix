@@ -8,11 +8,14 @@
     python312Packages.virtualenv
     python312Packages.pandas
 
+    fzf
+    fd
     zlib
     stdenv.cc.cc
   ];
 
   enterShell = ''
+    export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
     source $DEVENV_ROOT/.venv/bin/activate
   '';
 
