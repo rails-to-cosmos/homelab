@@ -22,6 +22,7 @@ handler.setFormatter(formatter)
 log.addHandler(handler)
 
 SYMLINK_MAP = {
+    Path.home() / "sync" / "resources" / "dotfiles" / "aws"                      : Path.home() / ".aws",
     Path.home() / "sync" / "resources" / "dotfiles" / ".profile"                 : Path.home() / ".profile",
     Path.home() / "sync" / "resources" / "dotfiles" / ".xinitrc"                 : Path.home() / ".xinitrc",
     Path.home() / "sync" / "resources" / "dotfiles" / ".wakerc"                  : Path.home() / ".wakerc",
