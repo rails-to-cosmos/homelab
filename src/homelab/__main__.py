@@ -10,7 +10,8 @@ import shutil
 import subprocess
 import sys
 import time
-import fire
+
+import fire  # type: ignore
 
 log_level = os.getenv("HOMELAB__LOG_LEVEL", logging.INFO)
 log_format = os.getenv("HOMELAB__LOG_FORMAT", "%(asctime)s %(levelname)-8s %(threadName)-15s %(name)s:%(lineno)-3s %(message)s")
@@ -171,10 +172,18 @@ def setup_key_repetition_interval():
             subprocess.run(["xset", "r", "rate", "200", "60"])
 
 
-if __name__ == "__main__":
-    global_decision = None
-    for source, target in SYMLINK_MAP.items():
-        global_decision = create_symlink(source, target, global_decision)
+class App:
+    def create_symlinks(self) -> None:
+        decision = None
+        for source, target in SYMLINK_MAP.items():
+            decision = create_symlink(source, target, decision)
 
-    install_fonts(FONTS_LOCATION)
-    setup_key_repetition_interval()
+    def install_fonts(self, fonts_location: str = FONTS_LOCATION) -> None:
+        install_fonts(fonts_location)
+
+    def setup_key_repetition_interval(self) -> None:
+        setup_key_repetition_interval()
+
+
+if __name__ == "__main__":
+    fire.Fire(App)
