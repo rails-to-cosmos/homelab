@@ -8,6 +8,7 @@ import platform
 import shutil
 import subprocess
 import time
+import fire  # type: ignore
 
 from homelab.config import SYMLINK_MAP, FONTS_LOCATION
 from homelab.logger import log
@@ -135,13 +136,21 @@ def setup_key_repetition_interval():
             subprocess.run(["xset", "r", "rate", "200", "60"])
 
 
-def main() -> None:
-    decision = None
-    for source, target in SYMLINK_MAP.items():
-        decision = create_symlink(source, target, decision)
+class App:
+    def create_symlinks(self) -> None:
+        decision = None
+        for source, target in SYMLINK_MAP.items():
+            decision = create_symlink(source, target, decision)
 
-    install_fonts(FONTS_LOCATION)
-    setup_key_repetition_interval()
+    def install_fonts(self, fonts_location: str = FONTS_LOCATION) -> None:
+        install_fonts(fonts_location)
+
+    def setup_key_repetition_interval(self) -> None:
+        setup_key_repetition_interval()
+
+
+def main() -> None:
+    fire.Fire(App)
 
 
 if __name__ == "__main__":
