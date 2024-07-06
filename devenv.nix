@@ -1,31 +1,32 @@
-{ pkgs, ... }:
+{ pkgs, lib, config, inputs, ... }:
 
 {
-  env.LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [pkgs.stdenv.cc.cc.lib];
+  env.PROJECT_NAME = "homelab";  # specify your project name
+  env.PYTHON_VERSION = "3.12";  # specify your python version
+
+  env.FZF_DEFAULT_COMMAND = "fd --type f --strip-cwd-prefix";
 
   packages = with pkgs; [
-    python312Full
-    python312Packages.virtualenv
-    python312Packages.pandas
-
     fzf
     fd
-    zlib
-    stdenv.cc.cc
   ];
 
-  enterShell = ''
-    export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
-    source $DEVENV_ROOT/.venv/bin/activate
-  '';
-
-  enterTest = ''
-    mypy src
-  '';
-
   scripts.init.exec = ''
-    virtualenv .venv
+    pyenv install -s $PYTHON_VERSION
+    pyenv local $PYTHON_VERSION
+    pyenv version
+    pyenv virtualenv $PROJECT_NAME
+    echo "$PROJECT_NAME" > .python-version
+  '';
+
+  scripts.install.exec = ''
+    pip install --upgrade pip
     pip install poetry
-    poetry install --with dev
+    poetry install
+  '';
+
+  scripts.run-test.exec = ''
+    poetry run mypy .
+    poetry run pytest . $@
   '';
 }
