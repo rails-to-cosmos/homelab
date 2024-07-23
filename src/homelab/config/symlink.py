@@ -22,6 +22,7 @@ SYMLINK_MAP = {
     Path.home() / "sync" / "resources" / "dotfiles" / "autostart"                : Path.home() / ".config" / "autostart",
     Path.home() / "sync" / "resources" / "dotfiles" / "terminator"               : Path.home() / ".config" / "terminator",
     Path.home() / "sync" / "resources" / "dotfiles" / "cinnamon"                 : Path.home() / ".config" / "cinnamon",
+    Path.home() / "sync" / "resources" / "dotfiles" / "thunderbird"              : Path.home() / ".thunderbird",
     Path.home() / "sync" / "resources" / "ice"                                   : Path.home() / ".local" / "share" / "ice",
     Path.home() / "sync" / "resources" / "document"                              : Path.home() / "Documents",
     Path.home() / "sync" / "resources" / "camera"                                : Path.home() / "Pictures",
