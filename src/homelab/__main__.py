@@ -27,54 +27,59 @@ def create_symlink(source_path: Path, target_path: Path, decision: Optional[str]
         target_path.parent.mkdir(parents=True)
 
     if target_path.exists() or target_path.is_symlink():
+        log.info(f"Target path {target_path} already exists.")
+
         if target_path.resolve() == source_path:
             log.info(f"Path {target_path} is a symbolic link to the source. Skipping symbolic link creation.")
             return decision
-        else:
-            log.info(f"Target path {target_path} already exists.")
-            if decision is None:
-                log.info("Do you want to rename it or delete it? (rename/delete/skip) ")
-                answer = input().lower()
-                if answer.startswith("r"):
-                    new_target_path = target_path.with_name(f"{target_path.name}_bak_{int(time.time())}")
-                    log.info(f"Renaming the existing target to {new_target_path}")
-                    shutil.move(str(target_path), str(new_target_path))
-                    decision = "r"
-                elif answer.startswith("d"):
-                    log.info(f"Deleting the existing target {target_path}")
-                    if target_path.is_dir():
-                        shutil.rmtree(str(target_path))
-                    else:
-                        target_path.unlink()
-                    decision = "d"
-                elif answer.startswith("s"):
-                    log.info("Skipping symbolic link creation.")
-                    return "s"
-                else:
-                    log.info("Invalid answer. Please answer rename, delete or skip.")
-                    return decision
 
-                log.info("Do you want to apply this action to all future conflicts? (yes/no) ")
-                answer = input().lower()
-                if answer.startswith("y"):
-                    log.info(f"Will use {decision} for all future conflicts.")
+        if decision is None:
+            log.info("How do you want me to resolve the conflict? (rename/delete/skip) ")
+            answer = input().lower().strip()
+            if answer.startswith("rename"):
+                new_target_path = target_path.with_name(f"{target_path.name}_bak_{int(time.time())}")
+                log.info(f"Renaming the existing target to {new_target_path}")
+                shutil.move(str(target_path), str(new_target_path))
+                decision = "r"
+            elif answer.startswith("delete"):
+                log.info(f"Deleting the existing target {target_path}")
+                if target_path.is_dir():
+                    shutil.rmtree(str(target_path))
                 else:
-                    decision = None
+                    target_path.unlink()
+                decision = "d"
+            elif answer.startswith("skip"):
+                decision = "s"
+                log.info("Skipping symbolic link creation.")
             else:
-                if decision == "r":
-                    new_target_path = target_path.with_name(f"{target_path.name}_bak_{int(time.time())}")
-                    log.info(f"Renaming the existing target to {new_target_path}")
-                    shutil.move(str(target_path), str(new_target_path))
-                elif decision == "d":
-                    log.info(f"Deleting the existing target {target_path}")
-                    if target_path.is_dir():
-                        shutil.rmtree(str(target_path))
-                    else:
-                        target_path.unlink()
+                log.info("Invalid answer. Please answer rename, delete or skip.")
+                return decision
+
+            log.info("Do you want to apply this action to all future conflicts? (yes/no) ")
+            answer = input().lower()
+            if answer.startswith("yes"):
+                log.info(f"Will use {decision} for all future conflicts.")
+            else:
+                decision = None
+
+        if decision == "r":
+            new_target_path = target_path.with_name(f"{target_path.name}_bak_{int(time.time())}")
+            log.info(f"Renaming the existing target to {new_target_path}")
+            shutil.move(str(target_path), str(new_target_path))
+        elif decision == "d":
+            log.info(f"Deleting the existing target {target_path}")
+            if target_path.is_dir():
+                shutil.rmtree(str(target_path))
+            else:
+                target_path.unlink()
+        elif decision == "s":
+            log.info("Skipping symbolic link creation.")
+            return decision
 
     log.info("Creating symbolic link...")
     target_path.symlink_to(source_path)
     log.info("Symbolic link created successfully!")
+
     return decision
 
 

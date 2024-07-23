@@ -171,3 +171,4 @@ devenv.local.nix
 .pre-commit-config.yaml
 *.*#
 /.python-version
+flycheck*
