@@ -137,12 +137,17 @@ def setup_key_repetition_interval():
 
 
 class App:
+    def init(self) -> None:
+        self.create_symlinks()
+        self.install_fonts()
+        self.setup_key_repetition_interval()
+
     def create_symlinks(self) -> None:
         decision = None
         for source, target in SYMLINK_MAP.items():
             decision = create_symlink(source, target, decision)
 
-    def install_fonts(self, fonts_location: str = FONTS_LOCATION) -> None:
+    def install_fonts(self, fonts_location: str | Path = FONTS_LOCATION) -> None:
         install_fonts(fonts_location)
 
     def setup_key_repetition_interval(self) -> None:
