@@ -1,8 +1,8 @@
 { pkgs, lib, config, inputs, ... }:
 
 {
-  env.PROJECT_NAME = "homelab";  # specify your project name
-  env.PYTHON_VERSION = "3.12";  # specify your python version
+  env.PROJECT_NAME = "homelab";
+  env.PYTHON_VERSION = "3.12";
 
   env.FZF_DEFAULT_COMMAND = "fd --type f --strip-cwd-prefix";
 
