@@ -21,4 +21,6 @@ SYMLINK_MAP = {
     Path.home() / "sync" / "resources" / "dotfiles" / "applications"             : Path.home() / ".local" / "share" / "applications",
     Path.home() / "sync" / "resources" / "dotfiles" / "autostart"                : Path.home() / ".config" / "autostart",
     Path.home() / "sync" / "resources" / "ice"                                   : Path.home() / ".local" / "share" / "ice",
+    Path.home() / "sync" / "resources" / "document"                              : Path.home() / "Documents",
+    Path.home() / "sync" / "resources" / "camera"                                : Path.home() / "Pictures",
 }
