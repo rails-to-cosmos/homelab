@@ -61,8 +61,7 @@ def create_symlink(source_path: Path, target_path: Path, decision: Optional[str]
                 log.info(f"Will use {decision} for all future conflicts.")
             else:
                 decision = None
-
-        if decision == "r":
+        elif decision == "r":
             new_target_path = target_path.with_name(f"{target_path.name}_bak_{int(time.time())}")
             log.info(f"Renaming the existing target to {new_target_path}")
             shutil.move(str(target_path), str(new_target_path))
