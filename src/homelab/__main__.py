@@ -158,7 +158,7 @@ class App:
         setup_key_repetition_interval()
 
     def clone_views(self) -> None:
-        subprocess.run(["git", "clone", "git clone ssh://git-codecommit.us-east-2.amazonaws.com/v1/repos/views"])
+        subprocess.run(["git", "clone", "ssh://git-codecommit.us-east-2.amazonaws.com/v1/repos/views", "~/sync/views"])
 
 
 def main() -> None:
