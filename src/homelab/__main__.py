@@ -11,25 +11,24 @@ import time
 import fire  # type: ignore
 
 from homelab.config import SYMLINK_MAP, FONTS_LOCATION
-from homelab.logger import log
 
 
 def create_symlink(source_path: Path, target_path: Path, decision: Optional[str] = None) -> str | None:
     force: bool = decision is not None
 
-    log.info(f"Config path is: {source_path}")
+    print(f"Config path is: {source_path}")
 
     if not source_path.exists():
-        log.info(f"Source {source_path} does not exist. Skipping symbolic link creation.")
+        print(f"Source {source_path} does not exist. Skipping symbolic link creation.")
         return decision
 
     # Check if the parent directory of the target path exists, if not create it
     if not target_path.parent.exists():
-        log.info(f"Target directory {target_path.parent} does not exist. Creating it...")
+        print(f"Target directory {target_path.parent} does not exist. Creating it...")
         target_path.parent.mkdir(parents=True)
 
     if target_path.exists() or target_path.is_symlink():
-        log.info(f"Target path {target_path} already exists.")
+        print(f"Target path {target_path} already exists.")
 
         if target_path.resolve() == source_path:
             print(f"Path {target_path} is a symbolic link to the source. Skipping symbolic link creation.")
@@ -52,12 +51,12 @@ def create_symlink(source_path: Path, target_path: Path, decision: Optional[str]
                 print(f"Deleting the existing target {target_path}")
                 shutil.rmtree(str(target_path)) if target_path.is_dir() else target_path.unlink()
             case "skip":
-                log.info("Skipping symbolic link creation.")
+                print("Skipping symbolic link creation.")
 
     if decision != "skip":
-        log.info("Creating symbolic link...")
+        print("Creating symbolic link...")
         target_path.symlink_to(source_path)
-        log.info("Symbolic link created successfully!")
+        print("Symbolic link created successfully!")
 
     if force:
         print(f"Will use {decision} for all future conflicts.")
@@ -79,7 +78,7 @@ def install_fonts_linux(font_dir):
         for filename in filenames:
             if filename.endswith(".ttf") or filename.endswith(".otf"):
                 font_path = os.path.join(dirpath, filename)
-                log.info(f"Installing {font_path}")
+                print(f"Installing {font_path}")
                 shutil.copy2(font_path, font_cache_dir)
 
     # Rebuild the font cache
@@ -89,7 +88,7 @@ def install_fonts_linux(font_dir):
 def install_fonts_mac(dir_path: Path) -> None:
     # Ensure the directory exists
     if not dir_path.is_dir():
-        log.info(f"Directory {dir_path} does not exist.")
+        print(f"Directory {dir_path} does not exist.")
         return
 
     # Recursively iterate through all files in the directory
@@ -102,7 +101,7 @@ def install_fonts_mac(dir_path: Path) -> None:
             # Copy the font file to the target directory
             shutil.copy2(item_path, target_path)
 
-            log.info(f"Font {item_path.name} installed successfully.")
+            print(f"Font {item_path.name} installed successfully.")
 
 
 def install_fonts(dir_path):
@@ -112,7 +111,7 @@ def install_fonts(dir_path):
         case "Darwin":
             install_fonts_mac(Path(dir_path))
         case system:
-            log.info(f"Unsupported platform: {system}")
+            print(f"Unsupported platform: {system}")
 
 
 def setup_key_repetition_interval():
