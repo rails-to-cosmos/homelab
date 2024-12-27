@@ -131,7 +131,6 @@ def install_fonts(dir_path):
 
 
 def setup_key_repetition_interval():
-    # Check if the current system is macOS
     match platform.system():
         case "Darwin":
             subprocess.run(["defaults", "write", "-g", "InitialKeyRepeat", "-int", "10"])
@@ -145,6 +144,7 @@ class App:
         self.create_symlinks()
         self.install_fonts()
         self.setup_key_repetition_interval()
+        self.clone_views()
 
     def create_symlinks(self) -> None:
         decision = None
@@ -156,6 +156,9 @@ class App:
 
     def setup_key_repetition_interval(self) -> None:
         setup_key_repetition_interval()
+
+    def clone_views(self) -> None:
+        subprocess.run(["git", "clone", "git clone ssh://git-codecommit.us-east-2.amazonaws.com/v1/repos/views"])
 
 
 def main() -> None:
