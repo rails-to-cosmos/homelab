@@ -1,9 +1,7 @@
 { pkgs, lib, config, inputs, ... }:
 
 {
-  env.PROJECT_NAME = "homelab";
-  env.PYTHON_VERSION = "3.12";
-
+  env.PYTHON_VERSION = "3.10";
   env.FZF_DEFAULT_COMMAND = "fd --type f --strip-cwd-prefix";
 
   packages = with pkgs; [
@@ -11,18 +9,29 @@
     fd
   ];
 
-  scripts.init.exec = ''
+  scripts.wake.exec = ''
+    set -e
+
+    PROJECT_NAME=$(basename "$DEVENV_ROOT")
+
     pyenv install -s $PYTHON_VERSION
     pyenv local $PYTHON_VERSION
     pyenv version
-    pyenv virtualenv $PROJECT_NAME
+    pyenv virtualenv $PROJECT_NAME || true
     echo "$PROJECT_NAME" > .python-version
-  '';
+    source $(pyenv root)/versions/$PROJECT_NAME/bin/activate
 
-  scripts.install.exec = ''
     pip install --upgrade pip
     pip install poetry
-    poetry install
+
+    if [ -f "pyproject.toml" ]; then
+        echo "pyproject.toml found. Running poetry install..."
+        poetry lock
+        poetry install
+    else
+        echo "pyproject.toml not found. Running poetry init..."
+        poetry init
+    fi
   '';
 
   scripts.run-test.exec = ''
