@@ -1,7 +1,7 @@
 { pkgs, lib, config, inputs, ... }:
 
 {
-  env.PYTHON_VERSION = "3.10";
+  env.PYTHON_VERSION = "3.12";
   env.FZF_DEFAULT_COMMAND = "fd --type f --strip-cwd-prefix";
 
   packages = with pkgs; [
