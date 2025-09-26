@@ -13,7 +13,6 @@ import fire  # type: ignore
 
 from homelab import Config, Logger
 from homelab.fonts import install_fonts
-from homelab.kbd import setup_key_repetition_interval
 from homelab.symlinks import create_symlink
 
 PROJECT_NAME = "homelab"
@@ -46,9 +45,6 @@ class App:
         cfg = self._cfg
         for font_location in cfg.font_locations:
             install_fonts(font_location)
-
-    def kbd(self) -> None:
-        setup_key_repetition_interval()
 
     def views(self) -> None:
         cfg = self._cfg
