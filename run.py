@@ -7,6 +7,7 @@
 # ///
 
 import subprocess
+import functools
 
 import fire  # type: ignore
 
@@ -19,8 +20,14 @@ PROJECT_NAME = "homelab"
 
 
 class App:
+    @functools.cached_property
     def _cfg(self) -> Config:
         return Config.from_yaml("config.yaml")
+
+    @functools.cached_property
+    def _logger(self) -> Config:
+        cfg = self._cfg
+        return Logger(PROJECT_NAME, cfg.log_level, cfg.log_format)
 
     def all(self) -> None:
         self.symlinks()
@@ -29,15 +36,14 @@ class App:
         self.views()
 
     def symlinks(self) -> None:
-        cfg = self._cfg()
-        logger = Logger(PROJECT_NAME, cfg.log_level, cfg.log_format)
+        cfg = self._cfg
 
         decision = None
         for source, target in cfg.symlinks.items():
             decision = create_symlink(source, target, decision)
 
     def fonts(self) -> None:
-        cfg = self._cfg()
+        cfg = self._cfg
         for font_location in cfg.font_locations:
             install_fonts(font_location)
 
@@ -45,7 +51,7 @@ class App:
         setup_key_repetition_interval()
 
     def views(self) -> None:
-        cfg = self._cfg()
+        cfg = self._cfg
         subprocess.run(["git", "clone", cfg.views.remote, str(cfg.views.local.expanduser())])
 
 
