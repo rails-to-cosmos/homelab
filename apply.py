@@ -31,7 +31,6 @@ class App:
     def all(self) -> None:
         self.symlinks()
         self.fonts()
-        self.kbd()
         self.views()
 
     def symlinks(self) -> None:
