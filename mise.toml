@@ -1,0 +1,7 @@
+[tools]
+fd = "latest"
+uv = "latest"
+fzf = "latest"
+
+[env]
+FZF_DEFAULT_COMMAND = "fd --type f --strip-cwd-prefix"
