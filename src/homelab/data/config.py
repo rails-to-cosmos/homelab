@@ -5,6 +5,10 @@ import attrs
 import yaml
 
 
+def ExpandedPath(path: Path | str) -> Path:
+    return Path(path).expanduser()
+
+
 @attrs.define(frozen=True, kw_only=True)
 class RepositoryConfig:
     remote: str
@@ -34,8 +38,8 @@ class Config:
                   }}:
                 return cls(log_level=log_level,
                            log_format=log_format,
-                           font_locations=list(map(Path, font_locations)),
-                           symlinks={Path(k): Path(v) for k, v in symlinks.items()},
-                           views=RepositoryConfig(remote=views_remote, local=Path(views_local).expanduser()))
+                           font_locations=list(map(ExpandedPath, font_locations)),
+                           symlinks={ExpandedPath(k): ExpandedPath(v) for k, v in symlinks.items()},
+                           views=RepositoryConfig(remote=views_remote, local=ExpandedPath(views_local)))
             case _:
                 raise ValueError("Unexpected config format")
